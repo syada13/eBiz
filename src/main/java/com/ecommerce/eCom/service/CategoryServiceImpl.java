@@ -17,4 +17,13 @@ public class CategoryServiceImpl implements CategoryService{
     public void createCategory(Category category){
         categories.add(category);
     }
+
+    public String deleteCategory(Long categoryId){
+       Category category =  categories.stream()
+                .filter(c -> c.getCategoryId().equals(categoryId))
+               .findFirst().orElse(null);
+       if(category == null) return " Category not found";
+
+       return "Category with a categoryId: "+ categoryId + "deleted successfully !!!";
+    }
 }
