@@ -39,9 +39,18 @@ public class CategoryController {
        try{
            String status = categoryService.deleteCategory(categoryId);
            return new ResponseEntity<>(status, HttpStatus.OK);
-       }catch(ResponseStatusException rse){
-           return new ResponseEntity<>(rse.getReason(),rse.getStatusCode());
+       }catch(ResponseStatusException e){
+           return new ResponseEntity<>(e.getReason(),e.getStatusCode());
        }
+    }
 
+    @PutMapping("/api/public/categories/{categoryId}")
+    public ResponseEntity<String> updateCategory(@RequestBody Category category, @PathVariable Long categoryId){
+       try{
+           Category categorySaved = categoryService.updateCategory(category,categoryId);
+           return new ResponseEntity<>("Category updated successfully",HttpStatus.OK);
+       }catch(ResponseStatusException e){
+           return new ResponseEntity<>(e.getReason(),e.getStatusCode());
+       }
     }
 }
