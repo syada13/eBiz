@@ -24,6 +24,7 @@ public class CategoryServiceImpl implements CategoryService{
                .findFirst().orElse(null);
        if(category == null) return " Category not found";
 
+       categories.remove(category);
        return "Category with a categoryId: "+ categoryId + "deleted successfully !!!";
     }
 }
