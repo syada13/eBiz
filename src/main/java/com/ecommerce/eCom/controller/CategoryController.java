@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class CategoryController {
    private CategoryService categoryService;
-   private Long nextId = 1L;
+
 
    public CategoryController(CategoryService categoryService){
        this.categoryService = categoryService;
@@ -27,7 +27,6 @@ public class CategoryController {
 
     @RequestMapping(value="/public/categories",method=RequestMethod.POST)
     public ResponseEntity<String> createCategory(@RequestBody Category category){
-        category.setCategoryId(nextId++);
         categoryService.createCategory(category);
         return new ResponseEntity<>("New category added successfully",HttpStatus.CREATED);
     }
