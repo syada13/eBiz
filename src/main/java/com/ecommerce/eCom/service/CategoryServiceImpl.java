@@ -19,7 +19,11 @@ public class CategoryServiceImpl implements CategoryService{
     private CategoryRepository categoryRepository;
 
     public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+        List<Category> categories = categoryRepository.findAll();
+        if(categories.isEmpty()){
+            throw new APIException("No category created yet.");
+        }
+        return categories;
     }
 
     public void createCategory(Category category){
