@@ -45,8 +45,7 @@ public class CategoryServiceImpl implements CategoryService{
             throw new APIException("Category with name: "+ category.getCategoryName() + " already exists!!!");
         }
         Category savedCategory = categoryRepository.save(category);
-        CategoryDTO savedCategoryDTO = modelMapper.map(savedCategory,CategoryDTO.class);
-        return savedCategoryDTO;
+        return modelMapper.map(savedCategory,CategoryDTO.class);
     }
 
     public String deleteCategory(Long categoryId){
