@@ -4,7 +4,9 @@ import com.ecommerce.eCom.config.AppConstants;
 import com.ecommerce.eCom.model.Category;
 import com.ecommerce.eCom.payload.CategoryDTO;
 import com.ecommerce.eCom.payload.CategoryResponse;
+import com.ecommerce.eCom.payload.ProductResponse;
 import com.ecommerce.eCom.service.CategoryService;
+import com.ecommerce.eCom.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import java.util.List;
 @RequestMapping("/api")
 public class CategoryController {
    private CategoryService categoryService;
+   private ProductService productService;
 
    public CategoryController(CategoryService categoryService){
        this.categoryService = categoryService;

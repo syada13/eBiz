@@ -44,10 +44,27 @@ public class ProductServiceImpl implements ProductService{
       List<Product> products = productRepository.findAll();
       List<ProductDTO> productDTOs = products.stream()
               .map(product -> modelMapper.map(product, ProductDTO.class))
-              .collect(Collectors.toList());
+              .toList();
 
       ProductResponse productResponse = new ProductResponse();
       productResponse.setContent(productDTOs);
       return productResponse;
+    }
+
+
+    @Override
+    public ProductResponse getProductsByCategory(Long categoryId){
+        Category category = categoryRepository.findById(categoryId)
+                        .orElseThrow( ()->
+                                new ResourceNotFoundException("Category","categoryId",categoryId));
+
+        List<Product> products = productRepository.findByCategoryOrderByPriceAsc(category);
+        List<ProductDTO> productsDTOs = products.stream()
+                .map(product -> modelMapper.map(product,ProductDTO.class))
+                .toList();
+
+        ProductResponse productResponse = new ProductResponse();
+        productResponse.setContent(productsDTOs);
+        return productResponse;
     }
 }
