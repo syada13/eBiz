@@ -53,7 +53,7 @@ public class ProductServiceImpl implements ProductService{
 
 
     @Override
-    public ProductResponse getProductsByCategory(Long categoryId){
+    public ProductResponse searchProductsByCategory(Long categoryId){
         Category category = categoryRepository.findById(categoryId)
                         .orElseThrow( ()->
                                 new ResourceNotFoundException("Category","categoryId",categoryId));
