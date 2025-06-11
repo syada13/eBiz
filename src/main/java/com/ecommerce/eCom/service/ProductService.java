@@ -3,10 +3,12 @@ package com.ecommerce.eCom.service;
 import com.ecommerce.eCom.model.Product;
 import com.ecommerce.eCom.payload.ProductDTO;
 import com.ecommerce.eCom.payload.ProductResponse;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+@Service
 public interface ProductService {
     ProductDTO addProduct(Long categoryId, ProductDTO productDTO);
     ProductResponse getAllProducts();
