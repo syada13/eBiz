@@ -11,7 +11,7 @@ import java.io.IOException;
 @Service
 public interface ProductService {
     ProductDTO addProduct(Long categoryId, ProductDTO productDTO);
-    ProductResponse getAllProducts();
+    ProductResponse getAllProducts(Integer pageNumber,Integer pageSize,String sortBy,String sortOrder);
     ProductResponse searchProductsByCategory(Long categoryId);
     ProductResponse searchProductsByKeyword(String keyword);
     ProductDTO updateProduct(Long productId,ProductDTO productDTO);
