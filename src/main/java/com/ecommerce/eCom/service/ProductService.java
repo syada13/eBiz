@@ -1,6 +1,5 @@
 package com.ecommerce.eCom.service;
 
-import com.ecommerce.eCom.model.Product;
 import com.ecommerce.eCom.payload.ProductDTO;
 import com.ecommerce.eCom.payload.ProductResponse;
 import org.springframework.stereotype.Service;
@@ -12,8 +11,8 @@ import java.io.IOException;
 public interface ProductService {
     ProductDTO addProduct(Long categoryId, ProductDTO productDTO);
     ProductResponse getAllProducts(Integer pageNumber,Integer pageSize,String sortBy,String sortOrder);
-    ProductResponse searchProductsByCategory(Long categoryId);
-    ProductResponse searchProductsByKeyword(String keyword);
+    ProductResponse searchProductsByCategory(Long categoryId, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
+    ProductResponse searchProductsByKeyword(String keyword, Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
     ProductDTO updateProduct(Long productId,ProductDTO productDTO);
     ProductDTO deleteProduct(Long productId);
     ProductDTO updateProductImage(Long productId, MultipartFile image) throws IOException;
