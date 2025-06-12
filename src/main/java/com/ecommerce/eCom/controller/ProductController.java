@@ -1,15 +1,15 @@
 package com.ecommerce.eCom.controller;
 
-import com.ecommerce.eCom.model.Product;
+
 import com.ecommerce.eCom.payload.ProductDTO;
 import com.ecommerce.eCom.payload.ProductResponse;
 import com.ecommerce.eCom.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 
 @RestController
@@ -20,7 +20,7 @@ public class ProductController {
     ProductService productService;
 
     @PostMapping("/admin/categories/{categoryId}/product")
-    private ResponseEntity<ProductDTO> addProduct(@PathVariable Long categoryId,
+    private ResponseEntity<ProductDTO> addProduct(@Valid @PathVariable Long categoryId,
                                                   @RequestBody ProductDTO productDTO){
         ProductDTO updatedProductDTO = productService.addProduct(categoryId,productDTO);
         return new ResponseEntity<>(updatedProductDTO, HttpStatus.CREATED);
@@ -45,7 +45,7 @@ public class ProductController {
     }
 
     @PutMapping("/admin/products/{productId}")
-    private ResponseEntity<ProductDTO> updateProduct(@RequestBody ProductDTO productDTO,
+    private ResponseEntity<ProductDTO> updateProduct(@Valid @RequestBody ProductDTO productDTO,
                                                      @PathVariable Long productId){
         ProductDTO updatedproductDTO = productService.updateProduct(productId,productDTO);
         return new ResponseEntity<>(updatedproductDTO,HttpStatus.OK);
