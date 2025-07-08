@@ -2,6 +2,9 @@ package com.ecommerce.eCom.controller;
 
 
 import com.ecommerce.eCom.config.AppConstants;
+import com.ecommerce.eCom.jwt.JwtUtils;
+import com.ecommerce.eCom.jwt.LoginRequest;
+import com.ecommerce.eCom.jwt.LoginResponse;
 import com.ecommerce.eCom.payload.ProductDTO;
 import com.ecommerce.eCom.payload.ProductResponse;
 import com.ecommerce.eCom.service.ProductService;
@@ -9,13 +12,28 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
 public class ProductController {
+
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @Autowired
     ProductService productService;
@@ -78,5 +96,4 @@ public class ProductController {
         ProductDTO updatedProduct = productService.updateProductImage(productId,image);
         return new ResponseEntity<>(updatedProduct,HttpStatus.OK);
     }
-
 }

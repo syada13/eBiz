@@ -10,6 +10,7 @@ import com.ecommerce.eCom.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -34,18 +35,21 @@ public class CategoryController {
        return new ResponseEntity<>(categoryResponse,HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value="/public/categories",method=RequestMethod.POST)
     public ResponseEntity<CategoryDTO> createCategory(@Valid @RequestBody CategoryDTO categoryDTO){
         CategoryDTO savedCategoryDTO = categoryService.createCategory(categoryDTO);
         return new ResponseEntity<>(savedCategoryDTO,HttpStatus.CREATED);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value="/admin/categories/{categoryId}",method=RequestMethod.DELETE)
     public ResponseEntity<CategoryDTO> deleteCategory(@PathVariable Long categoryId){
            CategoryDTO deletedCategoryDTO = categoryService.deleteCategory(categoryId);
            return new ResponseEntity<>(deletedCategoryDTO, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value="/public/categories/{categoryId}",method=RequestMethod.PUT)
     public ResponseEntity<CategoryDTO> updateCategory(@Valid @RequestBody CategoryDTO categoryDTO, @PathVariable Long categoryId){
            CategoryDTO categorySavedDTO = categoryService.updateCategory(categoryDTO,categoryId);
