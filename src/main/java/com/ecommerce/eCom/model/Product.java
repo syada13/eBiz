@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.annotation.processing.Generated;
 
@@ -13,6 +14,8 @@ import javax.annotation.processing.Generated;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name ="products")
+@ToString
 public class Product {
 
     @Id
