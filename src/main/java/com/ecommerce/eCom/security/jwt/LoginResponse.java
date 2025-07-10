@@ -1,4 +1,4 @@
-package com.ecommerce.eCom.jwt;
+package com.ecommerce.eCom.security.jwt;
 
 import java.util.List;
 

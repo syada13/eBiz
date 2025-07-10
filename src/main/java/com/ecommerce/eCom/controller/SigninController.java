@@ -1,8 +1,8 @@
 package com.ecommerce.eCom.controller;
 
-import com.ecommerce.eCom.jwt.JwtUtils;
-import com.ecommerce.eCom.jwt.LoginRequest;
-import com.ecommerce.eCom.jwt.LoginResponse;
+import com.ecommerce.eCom.security.jwt.JwtUtils;
+import com.ecommerce.eCom.security.jwt.LoginRequest;
+import com.ecommerce.eCom.security.jwt.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
