@@ -1,4 +1,4 @@
-package com.ecommerce.eCom.security.jwt;
+package com.ecommerce.eCom.security.request;
 
 
 public class LoginRequest {

@@ -1,8 +1,9 @@
 package com.ecommerce.eCom.controller;
 
 import com.ecommerce.eCom.security.jwt.JwtUtils;
-import com.ecommerce.eCom.security.jwt.LoginRequest;
-import com.ecommerce.eCom.security.jwt.LoginResponse;
+import com.ecommerce.eCom.security.request.LoginRequest;
+import com.ecommerce.eCom.security.response.UserInfoResponse;
+import com.ecommerce.eCom.security.service.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
-public class SigninController {
+public class AuthController {
 
     @Autowired
     private JwtUtils jwtUtils;
@@ -50,12 +50,12 @@ public class SigninController {
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         String jwtToken = jwtUtils.getTokenFromUserName(userDetails);
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-        LoginResponse response = new LoginResponse(jwtToken,userDetails.getUsername(), roles);
+        UserInfoResponse response = new UserInfoResponse(userDetails.getId(), jwtToken,userDetails.getUsername(), roles);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }
