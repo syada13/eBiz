@@ -10,6 +10,7 @@ import com.ecommerce.eCom.payload.ProductDTO;
 import com.ecommerce.eCom.repositories.CartItemRepository;
 import com.ecommerce.eCom.repositories.CartRepository;
 import com.ecommerce.eCom.repositories.ProductRepository;
+import com.ecommerce.eCom.util.AuthUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,9 +48,8 @@ public class CartServiceImpl implements CartService{
                 productId
         );
 
-        // Validations
         if (cartItem !=null){
-            throw new APIException("Product "+ product.getProductName() + "already exists in cart.");
+            throw new APIException("Product "+ product.getProductName() + " already exists in cart.");
         }
 
         if (product.getQuantity() == 0){
@@ -60,7 +60,7 @@ public class CartServiceImpl implements CartService{
             throw new APIException( "Please make an order of "+ product.getProductName() +
                     "less than or equal to the quantity" +product.getQuantity());
         }
-        // Create cart item
+
         CartItem newCartItem = new CartItem();
         newCartItem.setProduct(product);
         newCartItem.setCart(cart);
@@ -68,7 +68,6 @@ public class CartServiceImpl implements CartService{
         newCartItem.setDiscount(product.getDiscount());
         newCartItem.setProductPrice(product.getSpecialPrice());
 
-        // Save Cart Item
         cartItemRepository.save(newCartItem);
 
         // Reduce stock ???
@@ -76,7 +75,6 @@ public class CartServiceImpl implements CartService{
         cart.setTotalPrice(cart.getTotalPrice() + (product.getSpecialPrice() * quantity));
         cartRepository.save(cart);
 
-        // Return updated cart
         CartDTO cartDTO = modelMapper.map(cart,CartDTO.class);
 
         List<CartItem> cartItems = cart.getCartItems();
