@@ -11,6 +11,7 @@ import com.ecommerce.eCom.repositories.CartItemRepository;
 import com.ecommerce.eCom.repositories.CartRepository;
 import com.ecommerce.eCom.repositories.ProductRepository;
 import com.ecommerce.eCom.util.AuthUtils;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -128,6 +129,64 @@ public class CartServiceImpl implements CartService{
                 }).toList();
 
         cartDTO.setProducts(products);
+        return cartDTO;
+    }
+
+    @Override
+    @Transactional
+    public CartDTO updateProductQuantityToCart(Long productId, Integer quantity) {
+
+        Cart userCart = cartRepository.findCartByEmail(authUtil.loggedInEmail());
+        Long cartId = userCart.getCartId();
+        Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new ResourceNotFoundException("Cart ","cartId", cartId));
+
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product","productId",productId));
+
+        //Validations Before updating product quantity
+        if (product.getQuantity() == 0){
+            throw new APIException(product.getProductName() + "is currently not available.");
+        }
+
+        if (product.getQuantity() < quantity){
+            throw new APIException( "Please make an order of "+ product.getProductName() +
+                    "less than or equal to the quantity" +product.getQuantity());
+        }
+
+        CartItem cartItem = cartItemRepository.findCartItemByProductIdAndCartId(cartId,productId);
+        if (cartItem == null ){
+            throw new APIException("Product: "+ product.getProductName() + " not found in the user cart");
+        }
+
+
+        //Update product quantity
+        cartItem.setQuantity(product.getQuantity() + quantity);
+        cartItem.setProductPrice(product.getSpecialPrice());
+        cartItem.setDiscount(product.getDiscount());
+        cart.setTotalPrice(cart.getTotalPrice() + (cartItem.getProductPrice() * quantity));
+        cartRepository.save(cart);
+        CartItem updatedCartItem = cartItemRepository.save(cartItem);
+
+        /*
+        Cart has only one product/cartItem, AND operation is to reduce quantity of the product by 1.
+        Remove the cartItem/product from the cart
+         */
+        if (updatedCartItem.getQuantity() == 0){
+            cartItemRepository.deleteById(updatedCartItem.getCartItemId());
+        }
+
+
+        CartDTO cartDTO = modelMapper.map(cart,CartDTO.class);
+        List<CartItem> cartItems = cart.getCartItems();
+
+        Stream<ProductDTO> productStreams = cartItems.stream().map(item ->{
+            ProductDTO prd = modelMapper.map(item,ProductDTO.class);
+            prd.setQuantity(item.getQuantity());
+            return prd;
+        });
+
+        cartDTO.setProducts(productStreams.toList());
         return cartDTO;
     }
 
