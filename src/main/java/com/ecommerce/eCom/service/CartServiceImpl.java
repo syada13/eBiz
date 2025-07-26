@@ -159,11 +159,9 @@ public class CartServiceImpl implements CartService{
         }
 
         int newQuantity = cartItem.getQuantity() + quantity;
-
         if(newQuantity < 0){
             throw new APIException("Quantity can not be negative.");
         }
-
         if (newQuantity == 0){
             deleteProductFromCart(cartId,productId);
         } else {
@@ -173,7 +171,6 @@ public class CartServiceImpl implements CartService{
             cart.setTotalPrice(cart.getTotalPrice() + (cartItem.getProductPrice() * quantity));
             cartRepository.save(cart);
         }
-
 
         CartItem updatedCartItem = cartItemRepository.save(cartItem);
         if (updatedCartItem.getQuantity() == 0){
@@ -189,7 +186,6 @@ public class CartServiceImpl implements CartService{
             return prd;
         });
 
-
         cartDTO.setProducts(productStreams.toList());
         return cartDTO;
     }
@@ -201,7 +197,6 @@ public class CartServiceImpl implements CartService{
                 .orElseThrow(() -> new ResourceNotFoundException("Cart","cartId",cartId));
 
         CartItem cartItem = cartItemRepository.findCartItemByProductIdAndCartId(cartId,productId);
-
         if(cartItem == null ){
             throw new ResourceNotFoundException("Product","productId",productId);
         }
