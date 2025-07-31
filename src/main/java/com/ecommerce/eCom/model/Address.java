@@ -38,6 +38,11 @@ public class Address {
     @Size(min = 2, message =" Country name must be atleast 4 characters")
     private String country;
 
+    @NotBlank
+    @Size(min = 6, message =" Zipcode name must be atleast 6 characters")
+    private String zipcode;
+
+
     public Address(String street, String building, String city, String country, String zipcode) {
         this.street = street;
         this.building = building;
@@ -45,10 +50,6 @@ public class Address {
         this.country = country;
         this.zipcode = zipcode;
     }
-
-    @NotBlank
-    @Size(min = 6, message =" Zipcode name must be atleast 6 characters")
-    private String zipcode;
 
     @ManyToOne
     @JoinColumn(name="user_id")
