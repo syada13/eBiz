@@ -35,6 +35,10 @@ public class Address {
     private String city;
 
     @NotBlank
+    @Size(min = 4, message =" City name must be atleast 4 characters")
+    private String state;
+
+    @NotBlank
     @Size(min = 2, message =" Country name must be atleast 4 characters")
     private String country;
 
@@ -43,17 +47,16 @@ public class Address {
     private String zipcode;
 
 
-    public Address(String street, String building, String city, String country, String zipcode) {
-        this.street = street;
-        this.building = building;
-        this.city = city;
-        this.country = country;
-        this.zipcode = zipcode;
-    }
-
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
 
-
+    public Address(String street, String building, String city,String state,  String country, String zipcode) {
+        this.street = street;
+        this.building = building;
+        this.city = city;
+        this.state= state;
+        this.country = country;
+        this.zipcode = zipcode;
+    }
 }
