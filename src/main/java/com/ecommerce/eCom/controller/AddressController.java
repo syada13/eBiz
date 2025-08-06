@@ -4,6 +4,7 @@ package com.ecommerce.eCom.controller;
 import com.ecommerce.eCom.model.Address;
 import com.ecommerce.eCom.model.User;
 import com.ecommerce.eCom.payload.AddressDTO;
+import com.ecommerce.eCom.payload.ProductDTO;
 import com.ecommerce.eCom.repositories.AddressRepository;
 import com.ecommerce.eCom.service.AddressService;
 import com.ecommerce.eCom.util.AuthUtils;
@@ -57,6 +58,12 @@ public class AddressController {
                                                      @PathVariable Long addressId){
         AddressDTO updatedAddress = addressService.updateAddress(addressDTO,addressId);
         return new ResponseEntity<AddressDTO>(updatedAddress, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/addresses/{addressId}")
+    private ResponseEntity<String> deleteAddress(@PathVariable Long addressId){
+        String status  = addressService.deleteAddress(addressId);
+        return new ResponseEntity<String>(status,HttpStatus.OK);
     }
 
 }
