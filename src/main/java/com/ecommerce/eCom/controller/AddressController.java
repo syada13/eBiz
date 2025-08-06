@@ -22,7 +22,6 @@ public class AddressController {
     @Autowired
     AuthUtils authUtils;
 
-
     @Autowired
     AddressService addressService;
 
@@ -39,4 +38,25 @@ public class AddressController {
         List<AddressDTO> addressList = addressService.getAllAddresses();
         return new ResponseEntity<List<AddressDTO>>(addressList,HttpStatus.OK);
     }
+
+    @GetMapping("/addresses/{addressId}")
+    private ResponseEntity<AddressDTO> geAddressById(@PathVariable Long addressId) {
+        AddressDTO address = addressService.getAddressById(addressId);
+        return new ResponseEntity<AddressDTO>(address,HttpStatus.OK);
+    }
+
+    @GetMapping("/user/addresses")
+    private ResponseEntity<List<AddressDTO>> getUserAddresses() {
+        User user = authUtils.loggedInuser();
+        List<AddressDTO> userAddressesList= addressService.getUserAddresses(user);
+        return new ResponseEntity<List<AddressDTO>>(userAddressesList,HttpStatus.OK);
+    }
+
+    @PutMapping("/addresses/{addressId}")
+    private ResponseEntity<AddressDTO> updateAddress(@Valid @RequestBody AddressDTO addressDTO,
+                                                     @PathVariable Long addressId){
+        AddressDTO updatedAddress = addressService.updateAddress(addressDTO,addressId);
+        return new ResponseEntity<AddressDTO>(updatedAddress, HttpStatus.OK);
+    }
+
 }
