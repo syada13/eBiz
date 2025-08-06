@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 @Data
 @NoArgsConstructor
@@ -17,4 +19,5 @@ public class CategoryResponse {
     private Integer totalPages;
     private Boolean lastPage;
 
+    ArrayList<Integer> list = new ArrayList<Integer>();
 }
