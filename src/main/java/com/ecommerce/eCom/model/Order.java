@@ -38,11 +38,11 @@ public class Order {
     @JoinColumn(name="address_id")
     private Address  address;
 
-    /*
+
     @OneToOne
     @JoinColumn(name="payment_id")
     private Payment payment;
-     */
+
 
 
 }
