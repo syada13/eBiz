@@ -22,7 +22,7 @@ public class Payment {
     private Order order;
 
     @NotBlank
-    @Size(min=5, message= "Payment method must contain at least 5 characters.")
+    @Size(min=5, message= "Payment method must contain at least 4 characters.")
     private String paymentMethod;
 
     private String pgPaymentId;
@@ -34,8 +34,8 @@ public class Payment {
      Custom constructor to create Payment class object with all information we get from payment gateway
      without Order information and connect to Order object.
      */
-    public Payment(Long paymentId, String pgPaymentId,String pgName, String pgStatus, String pgResponseMessage){
-        this.paymentId = paymentId;
+    public Payment(String paymentMethod, String pgPaymentId,String pgName, String pgStatus, String pgResponseMessage){
+        this.paymentMethod = paymentMethod;
         this.pgPaymentId = pgPaymentId;
         this.pgName = pgName;
         this.pgStatus = pgStatus;
