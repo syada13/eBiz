@@ -33,7 +33,8 @@ public class ProductController {
         return new ResponseEntity<>(updatedProductDTO, HttpStatus.CREATED);
     }
 
-    @GetMapping("/public/products")
+    //@GetMapping("/public/products")
+    @RequestMapping(value="/public/products",method=RequestMethod.GET)
     private ResponseEntity<ProductResponse> getAllProducts(
             @RequestParam (name="pageNumber",defaultValue = AppConstants.PAGE_NUMBER,required = false) Integer pageNumber,
             @RequestParam (name="pageSize",defaultValue = AppConstants.PAGE_SIZE, required = false) Integer pageSize,
